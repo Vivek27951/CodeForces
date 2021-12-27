@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#define m 200000
+using namespace std;
+
+void helper(vector<int>& temp,int n)
+{
+    while(n)
+    {
+        temp.push_back(n%2);
+        n=n/2;
+    }
+}
+
+int main() {
+    vector<vector<int>>v;
+    vector<int>flag;
+    v.push_back(flag);
+    for(int i=1;i<=m;i++)
+    {
+        vector<int>temp;
+        helper(temp,i);
+        v.push_back(temp);
+    }
+    for(int i=1;i<v.size();i++)
+    {
+        for(int j=0;j<v[i-1].size();j++)
+        {
+            v[i][j]+=v[i-1][j];
+        }
+    }
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int l,r;
+	    cin>>l>>r;
+	    int maxi = INT_MIN;
+	    for(int i=0;i<v[r].size();i++)
+	    {
+	        if(i<v[l-1].size())
+	        {
+	            maxi = max(maxi,v[r][i]-v[l-1][i]);
+	        }
+	        else
+	        {
+	            maxi = max(maxi,v[r][i]);
+	        }
+	    }
+	    cout<<(r-l+1)-(maxi)<<endl;
+	}
+	return 0;
+}
