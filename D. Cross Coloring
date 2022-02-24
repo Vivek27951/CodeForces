@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long long pow_mod(long long cnt,long long k,long long mod)
+{
+    if(cnt==0 && k==0)
+        return 0;
+    long long res = 1;
+    while(cnt>0)
+    {
+        if(cnt%2)
+            res = (res*k)%mod;
+        k=(k*k)%mod;
+        cnt/=2;
+    }
+    return res;
+}
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,m,k,q;
+	    cin>>n>>m>>k>>q;
+	    vector<pair<int,int>>v;
+	    for(int i=0;i<q;i++)
+	    {
+	        int a,b;
+	        cin>>a>>b;
+	        v.push_back({a,b});
+	    }
+	    unordered_map<int,int>mc;
+	    unordered_map<int,int>mr;
+	    long long count = 0;
+	    long long mod = 998244353;
+	    for(int i=q-1;i>=0;i--)
+	    {
+	        int a = v[i].first;
+	        int b = v[i].second;
+	        bool ra=false;
+	        bool rb=false;
+	        if(mc.size()==m || mr.find(a)!=mr.end())ra=true;
+	        if(mr.size()==n || mc.find(b)!=mc.end())rb=true;
+	        if(ra && rb)continue;
+	        count++;
+	        mr[a]=1;
+	        mc[b]=1;
+	    }
+	    long long ans = pow_mod(count,k,mod);
+	    cout<<ans<<endl;
+	}
+	return 0;
+}
